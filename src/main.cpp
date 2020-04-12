@@ -1,17 +1,17 @@
 #include "IntervalTimer.h"
 #include "Keyboard4x3.h"
+#include <Arduino.h>
 
-using namespace std;
+Keyboard4x3 keyboard43 = Keyboard4x3();
 
 void handleSerialRead()
 {
   if (Serial.available() > 0){
     String s = Serial.readString();
-    Serial.println("I can hear you");
+    Serial.write(123);
+    keyboard43.readCommand(s);
   }
 }
-
-Keyboard4x3 keyboard43 = Keyboard4x3();
 
 void handleKeyboardPress()
 {
