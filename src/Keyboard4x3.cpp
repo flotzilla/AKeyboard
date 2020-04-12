@@ -4,7 +4,6 @@ using namespace std;
 
 Keyboard4x3::Keyboard4x3(/* args */)
 {
-    Serial.println("heelo there");
     uint8_t *keymap[] = {'c'};
 
     KeySet ks1 = KeySet(keymap);
