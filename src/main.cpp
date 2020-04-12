@@ -1,5 +1,3 @@
-// #include <KeyboardMultiLanguage.h>
-// #include "KeyboardMappingRU.h"
 #include "IntervalTimer.h"
 #include "Keyboard4x3.h"
 
@@ -13,7 +11,7 @@ void handleSerialRead()
   }
 }
 
-Keyboard4x3 keyboard43;
+Keyboard4x3 keyboard43 = Keyboard4x3();
 
 void handleKeyboardPress()
 {

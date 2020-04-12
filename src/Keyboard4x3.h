@@ -4,17 +4,18 @@
 #include <Arduino.h>
 #include "KeySet.h"
 
+#define KEY_COUNT 12
+
 class Keyboard4x3
 {
 
 private:
     int val = 0;
     int currentKey = KEY_NOT_PRESSED;
-    KeySet currentKeySet[12];
+    KeySet currentKeySet[KEY_COUNT];
 public:
-    Keyboard4x3(/* args */);
-    Keyboard4x3(KeySet keySet[12]);
-    ~Keyboard4x3();
+    Keyboard4x3();
+    Keyboard4x3(KeySet keySet[KEY_COUNT]);
 
     const int analogPin = A0;
     const int KEY_1 = 1;
@@ -34,11 +35,8 @@ public:
     void parseKeyboardButton(int value);
     void handleKeyBoardPress();
     void parseKeyboardButtonAction();
-    void setKeySet(KeySet keyset);
+
+    void setKeySet(KeySet keyset[KEY_COUNT]);
 };
     
-
-
-
-
 #endif

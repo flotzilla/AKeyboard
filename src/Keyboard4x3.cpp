@@ -1,22 +1,21 @@
 #include "Keyboard4x3.h"
-#include <KeyboardMultiLanguage.h>
-#include "KeyboardMappingRU.h"
 
 using namespace std;
 
 Keyboard4x3::Keyboard4x3(/* args */)
 {
+    Serial.println("heelo there");
+    uint8_t *keymap[] = {'c'};
+
+    KeySet ks1 = KeySet(keymap);
+    KeySet ks2 = KeySet("Some string to print");
+    currentKeySet[0] = ks1;
+    currentKeySet[1] = ks2;
 }
 
-Keyboard4x3::Keyboard4x3(KeySet keySet[12])
+Keyboard4x3::Keyboard4x3(KeySet keySet[KEY_COUNT])
 {
-    // currentKeySet[12] = {
-    //     keySet[0]
-    // };
-}
-
-Keyboard4x3::~Keyboard4x3()
-{
+    this->setKeySet(keySet);
 }
 
 void Keyboard4x3::parseKeyboardButton(int value)
@@ -52,24 +51,23 @@ void Keyboard4x3::parseKeyboardButton(int value)
 
 void Keyboard4x3::parseKeyboardButtonAction()
 {
-  if (currentKey == KEY_1){
-    Keyboard.press('c');    
-  }
-
-  if (currentKey == KEY_2){
-    Keyboard.language(Russian);
-    Keyboard.print("Добрый день. Заинтересовала ваша вакансия, с удовольствием пообщаюсь");    
-  }
-
+    if (currentKey >= KEY_1 && currentKey <= KEY_12){
+        currentKeySet[currentKey - 1].runAction();
+    }
 }
-
 
 void Keyboard4x3::handleKeyBoardPress()
 {
-  val = analogRead(analogPin); 
-  parseKeyboardButton(val);
-  parseKeyboardButtonAction();
+    val = analogRead(analogPin); 
+    parseKeyboardButton(val);
+    parseKeyboardButtonAction();
 
+    currentKeySet[currentKey - 1].keyRelease();
+}
 
-  Keyboard.releaseAll();   
+void Keyboard4x3::setKeySet(KeySet keyset[KEY_COUNT])
+{
+    for (uint8_t key = 0; key < KEY_COUNT; key++){
+        currentKeySet[key] = keyset[key];
+    }
 }
