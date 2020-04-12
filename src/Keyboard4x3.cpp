@@ -1,27 +1,12 @@
 #include "Keyboard4x3.h"
-#include <KeyboardMultiLanguage.h>
-#include "KeyboardMappingRU.h"
 
 using namespace std;
 
-Keyboard4x3::Keyboard4x3(/* args */)
-{
-}
-
-Keyboard4x3::Keyboard4x3(KeySet keySet[12])
-{
-    // currentKeySet[12] = {
-    //     keySet[0]
-    // };
-}
-
-Keyboard4x3::~Keyboard4x3()
-{
-}
+Keyboard4x3::Keyboard4x3(/* args */){}
 
 void Keyboard4x3::parseKeyboardButton(int value)
 {
-    if(value > 480 && value < 500){
+  if (value > 480 && value < 500){
       currentKey = KEY_4;
     } else if(value > 500 && value < 520){
       currentKey = KEY_8;
@@ -47,29 +32,93 @@ void Keyboard4x3::parseKeyboardButton(int value)
       currentKey = KEY_9;
     } else {
       currentKey = KEY_NOT_PRESSED;
-    }
+  }   
 }
 
 void Keyboard4x3::parseKeyboardButtonAction()
 {
-  if (currentKey == KEY_1){
-    Keyboard.press('c');    
+  switch (currentKey)
+  {
+  case KEY_1:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F1);
+    break;
+  case KEY_2:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F2);
+    break;
+  case KEY_3:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F3);
+    break;
+  case KEY_4:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F4);
+    break;
+  case KEY_5:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F5);
+    break;
+  case KEY_6:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F6);
+    break;
+  case KEY_7:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F7);
+    break;
+  case KEY_8:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F8);
+    break;
+  case KEY_9:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F9);
+    break;
+  case KEY_10:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F10);
+    break;
+  case KEY_11:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F11);
+    break;
+  case KEY_12:
+    Keyboard.press(KEY_LEFT_GUI);
+    Keyboard.press(KEY_F12);
+    break;
+  default:
+    break;
   }
-
-  if (currentKey == KEY_2){
-    Keyboard.language(Russian);
-    Keyboard.print("Добрый день. Заинтересовала ваша вакансия, с удовольствием пообщаюсь");    
-  }
-
 }
 
+void Keyboard4x3::debounce()
+{
+  int v = analogRead(analogPin); 
+  parseKeyboardButton(v);
+
+  int currentMills = millis();
+
+  if ((currentMills - lastDebounceTime) > debounceDelayVal){
+    lastDebounceTime = currentMills;
+    parseKeyboardButtonAction();
+    Keyboard.releaseAll();
+  }
+}
 
 void Keyboard4x3::handleKeyBoardPress()
 {
-  val = analogRead(analogPin); 
-  parseKeyboardButton(val);
-  parseKeyboardButtonAction();
+    debounce();
+    //or handle layout
+}
 
+void Keyboard4x3::readCommand(String command)
+{
+  Serial.println("reading command");
+  Serial.println(command);
+}
 
-  Keyboard.releaseAll();   
+void Keyboard4x3::parseCommand(String str)
+{
+
 }

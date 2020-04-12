@@ -1,19 +1,32 @@
 #ifndef KEYSET_H
 #define KEYSET_H
 
-#include "KeyAction.h"
+#include <KeyboardMultiLanguage.h>
+#include "KeyboardMappingRU.h"
+#include <stdint.h>
+#include <WString.h>
 
+#define KEY_MAP_SIZE 6
 class KeySet
 {
 private:
 
-    KeyAction keyAction;
+     char* language;
+
+    // keyboard combinations
+    uint8_t keypressMap[KEY_MAP_SIZE] = {};
+
+    // text to print
+    String text = "";
 
 public:
     KeySet(/* args */);
-    ~KeySet();
-    void getAction();
-    void setAction();
+    KeySet(String text);
+    KeySet(String text, char *language);
+    KeySet(uint8_t *keyMap[KEY_MAP_SIZE]);
+
+    void runAction();
+    void keyRelease();
 };
 
 #endif
